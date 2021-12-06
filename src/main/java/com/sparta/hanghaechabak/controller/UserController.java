@@ -1,10 +1,20 @@
 package com.sparta.hanghaechabak.controller;
 
+import com.sparta.hanghaechabak.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = {"User"})
+@RestController
+@RequiredArgsConstructor
 public class UserController {
+
+    private UserService userService;
+
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/user/signup")
@@ -24,4 +34,15 @@ public class UserController {
     ) {
     }
 
+    @ApiOperation(value = "닉네임 중복확인")
+    @PostMapping("/user/nickname/duplicate")
+    public void userNicknameDuplicate(
+    ) {
+    }
+
+    @ApiOperation(value = "이메일 중복확인")
+    @PostMapping("/user/email/duplicate")
+    public void userEmailDuplicate(
+    ) {
+    }
 }
