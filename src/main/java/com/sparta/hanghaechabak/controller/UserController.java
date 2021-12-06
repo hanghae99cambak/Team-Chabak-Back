@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
-
+    private final UserService userService;
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/user/signup")
@@ -39,4 +38,5 @@ public class UserController {
     public void userNicknameDuplicate(
     ) {
     }
+
 }
