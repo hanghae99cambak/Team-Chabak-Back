@@ -23,12 +23,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security:2.6.1'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.1'
     compileOnly 'org.projectlombok:lombok:1.18.22'
-    runtimeOnly 'com.h2database:h2:2.0.202'
+    runtimeOnly 'com.h2database:h2:1.4.200'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
     testImplementation 'org.springframework.security:spring-security-test:5.5.1'
-
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     // 테스트 코드를 위한 Lombok 라이브러리
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
