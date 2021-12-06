@@ -1,6 +1,5 @@
 package com.sparta.hanghaechabak.model;
 
-import com.sparta.hanghaechabak.utils.Timestamped;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Board {
+public class Board extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +30,8 @@ public class Board {
     private int like_count;
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_Id", nullable = false)
+    private User user;
 
 }
