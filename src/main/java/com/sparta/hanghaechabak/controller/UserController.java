@@ -26,7 +26,6 @@ public class UserController {
     public void userLogin(
     ) {
     }
-
     @ApiOperation(value = "로그아웃")
     @GetMapping("/logout")
     public void userLogout(
