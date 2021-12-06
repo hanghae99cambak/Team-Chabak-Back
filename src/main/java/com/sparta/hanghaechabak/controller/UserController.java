@@ -39,10 +39,4 @@ public class UserController {
     public void userNicknameDuplicate(
     ) {
     }
-
-    @ApiOperation(value = "이메일 중복확인")
-    @PostMapping("/user/email/duplicate")
-    public void userEmailDuplicate(
-    ) {
-    }
 }
