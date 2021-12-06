@@ -1,6 +1,5 @@
 package com.sparta.hanghaechabak.model;
 
-import com.sparta.hanghaechabak.utils.Timestamped;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,8 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자를 만들어줍니다.
 @Entity // DB 테이블 역할을 합니다.
-public class User {
-
+public class User extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +25,5 @@ public class User {
     private String email;
 
     private String kakaoId;
-
 
 }
