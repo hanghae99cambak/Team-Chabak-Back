@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").permitAll()
                 // JS 폴더를
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/**").permitAll()
                 // api
 //                    .antMatchers("/api/**").permitAll()
                 // 게시판 글 모두 조회 가능
