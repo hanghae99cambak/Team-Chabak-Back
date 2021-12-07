@@ -2,14 +2,19 @@ package com.sparta.hanghaechabak.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.hanghaechabak.dto.SignupRequestDto;
+import com.sparta.hanghaechabak.dto.UserInfoDto;
+import com.sparta.hanghaechabak.model.UserRoleEnum;
+import com.sparta.hanghaechabak.security.UserDetailsImpl;
 import com.sparta.hanghaechabak.service.KakaoUserService;
 import com.sparta.hanghaechabak.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserController {
@@ -25,7 +30,7 @@ public class UserController {
 
     // 회원 로그인 페이지
     @ApiOperation(value = "회원 로그인 페이지")
-    @GetMapping("/user/login")
+    @GetMapping("/user/loginView")
     public String login() {
         return "login";
     }
@@ -42,7 +47,18 @@ public class UserController {
     @PostMapping("/user/signup")
     public String registerUser(SignupRequestDto requestDto) {
         userService.registerUser(requestDto);
-        return "redirect:/user/login";
+        return "redirect:/user/loginView";
+    }
+
+    // 회원 관련 정보 받기
+    @PostMapping("/user/userinfo")
+    @ResponseBody
+    public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String username = userDetails.getUser().getNickname();
+        UserRoleEnum role = userDetails.getUser().getRole();
+        boolean isAdmin = (role == UserRoleEnum.ADMIN);
+
+        return new UserInfoDto(username, isAdmin);
     }
 
     @ApiOperation(value = "kakao_callback")
