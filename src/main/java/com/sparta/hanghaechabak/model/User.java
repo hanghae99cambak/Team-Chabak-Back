@@ -1,5 +1,6 @@
 package com.sparta.hanghaechabak.model;
 
+import com.sparta.hanghaechabak.utils.Timestamped;
 import lombok.*;
 
 import javax.persistence.*;
