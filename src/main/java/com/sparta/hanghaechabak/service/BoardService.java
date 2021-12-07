@@ -8,13 +8,15 @@ import com.sparta.hanghaechabak.exception.ErrorUtils.ErrorCode;
 import com.sparta.hanghaechabak.model.Board;
 import com.sparta.hanghaechabak.model.User;
 import com.sparta.hanghaechabak.repository.BoardRepository;
+import com.sparta.hanghaechabak.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,14 +24,26 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final S3Uploader s3Uploader;
+
+    private final String imageDirName = "static";
 
     @Transactional
-    public BoardResponseDto savePost(BoardRequestDto boardRequestDto, User user) {
+    public BoardResponseDto savePost(
+            BoardRequestDto boardRequestDto,
+            User user,
+            MultipartFile multipartFile
+    ) throws IOException {
+
+        if(multipartFile == null) {
+            throw new NullPointerException("등록하려는 게시글에 이미지가 없습니다.");
+        }
+        String imageUrl = s3Uploader.upload(multipartFile, imageDirName);
         Board post = Board.builder()
                 .author(user.getNickname())
                 .content(boardRequestDto.getContent())
                 .location(boardRequestDto.getLocation())
-                .image(boardRequestDto.getImage())
+                .image(imageUrl)
                 .user(user)
                 .build();
         boardRepository.save(post);
@@ -44,18 +58,34 @@ public class BoardService {
                 .build();
     }
 
-    public BoardResponseDto modify(Long boardId, BoardRequestDto boardRequestDto, User user) {
+    public BoardResponseDto modify(
+            Long boardId,
+            BoardRequestDto boardRequestDto,
+            User user,
+            MultipartFile multipartFile
+    ) throws IOException {
+
         Board modifyBoard = boardRepository.findById(boardId).orElseThrow(() ->  new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
         if (!modifyBoard.getUser().getId().equals(user.getId())) throw new ErrorNotFoundUserException(ErrorCode.ERROR_NOTMATCH_MODIFY);
+
 
         Board newUpdateBoard = modifyBoard.builder()
                 .id(boardId)
                 .content(boardRequestDto.getContent())
                 .location(boardRequestDto.getLocation())
-                .image(boardRequestDto.getImage())
                 .user(user)
                 .build();
 
+        if(multipartFile != null) {
+            String imageUrl = s3Uploader.upload(multipartFile, imageDirName);
+            newUpdateBoard.builder()
+                    .image(imageUrl)
+                    .build();
+        } else {
+            newUpdateBoard.builder()
+                    .image(modifyBoard.getImage())
+                    .build();
+        }
 
         return BoardResponseDto.builder()
                 .id(newUpdateBoard.getId())
@@ -64,7 +94,6 @@ public class BoardService {
                 .location(newUpdateBoard.getLocation())
                 .author(newUpdateBoard.getAuthor())
                 .build();
-
     }
 
     public BoardResponseDto findOne(Long id) {

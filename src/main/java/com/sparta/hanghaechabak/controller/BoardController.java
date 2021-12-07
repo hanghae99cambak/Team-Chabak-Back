@@ -12,7 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Api(tags = {"Board"})
 @RestController
@@ -23,32 +26,48 @@ public class BoardController {
 
     @ApiOperation(value = "게시글 등록")
     @PostMapping("/api/board")
-    public BoardResponseDto boardUpload(@RequestBody @Valid BoardRequestDto boardRequestDto ,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return boardService.savePost(boardRequestDto,userDetails.getUser());
+    public BoardResponseDto boardUpload(
+            @RequestBody @Valid BoardRequestDto boardRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam MultipartFile multipartFile
+    ) throws IOException {
+        return boardService.savePost(boardRequestDto,userDetails.getUser(), multipartFile);
     }
 
     @ApiOperation(value = "게시글 수정")
     @PutMapping("/api/board/detail/{id}")
-    public BoardResponseDto boardUpdate(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return boardService.modify(id,boardRequestDto,userDetails.getUser());
+    public BoardResponseDto boardUpdate(
+            @PathVariable Long id,
+            @RequestBody BoardRequestDto boardRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam MultipartFile multipartFile
+    ) throws IOException {
+        return boardService.modify(id,boardRequestDto,userDetails.getUser(), multipartFile);
     }
 
     @ApiOperation(value = "게시글 조회")
     @GetMapping("/api/board")
-    public Page<Board> boardGetList(Pageable pageable) {
+    public Page<Board> boardGetList(
+            Pageable pageable
+    ) {
         return boardService.findAllPaging(pageable);
     }
 
 
     @ApiOperation(value = "게시글 상세조회")
     @GetMapping("/api/board/detail/{id}")
-    public BoardResponseDto boardGetDetail(@PathVariable Long id) {
+    public BoardResponseDto boardGetDetail(
+            @PathVariable Long id
+    ) {
         return boardService.findOne(id);
     }
 
     @ApiOperation(value = "게시글 삭제")
     @DeleteMapping ("/api/board/detail/{id}")
-    public Long boardDelete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public Long boardDelete(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         return boardService.deletePost(id,userDetails.getUser().getId());
 
     }
