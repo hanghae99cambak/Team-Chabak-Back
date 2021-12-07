@@ -1,42 +1,54 @@
 package com.sparta.hanghaechabak.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sparta.hanghaechabak.dto.SignupRequestDto;
+import com.sparta.hanghaechabak.service.KakaoUserService;
 import com.sparta.hanghaechabak.service.UserService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@Api(tags = {"User"})
-@RestController
-@RequiredArgsConstructor
+@Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final KakaoUserService kakaoUserService;
 
+    @Autowired
+    public UserController(UserService userService, KakaoUserService kakaoUserService) {
+        this.userService = userService;
+        this.kakaoUserService = kakaoUserService;
+    }
 
-    @ApiOperation(value = "회원가입")
+    // 회원 로그인 페이지
+    @ApiOperation(value = "회원 로그인 페이지")
+    @GetMapping("/user/login")
+    public String login() {
+        return "login";
+    }
+
+    // 회원 가입 페이지
+    @ApiOperation(value = "회원 가입 페이지")
+    @GetMapping("/user/signup")
+    public String signup() {
+        return "signup";
+    }
+
+    // 회원 가입 요청 처리
+    @ApiOperation(value = "회원 가입 요청 처리")
     @PostMapping("/user/signup")
-    public void userSignUp(
-    ) {
+    public String registerUser(SignupRequestDto requestDto) {
+        userService.registerUser(requestDto);
+        return "redirect:/user/login";
     }
 
-    @ApiOperation(value = "로그인")
-    @PostMapping("/user/login")
-    public void userLogin(
-    ) {
-    }
-
-    @ApiOperation(value = "로그아웃")
-    @GetMapping("/logout")
-    public void userLogout(
-    ) {
-    }
-
-    @ApiOperation(value = "닉네임 중복확인")
-    @PostMapping("/user/nickname/duplicate")
-    public void userNicknameDuplicate(
-    ) {
+    @ApiOperation(value = "kakao_callback")
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(@RequestParam String code) throws JsonProcessingException {
+        kakaoUserService.kakaoLogin(code);
+        return "redirect:/";
     }
 }

@@ -10,6 +10,7 @@ public class HanghaechabakApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HanghaechabakApplication.class, args);
+
     }
 
 }
