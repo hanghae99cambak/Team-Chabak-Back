@@ -18,7 +18,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
 //                .apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("arthur.deliveryapi"))
+                .apis(RequestHandlerSelectors.basePackage("com.sparta.hanghaechabak"))
                 // 스웨거가 RestController를 전부 스캔을 한다.
                 // basePackage => 어디를 범위로 스캔을 할 것인지 작성
                 .paths(PathSelectors.any())
@@ -29,10 +29,10 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder()
-                .title("음식 주문 서비스")
-                .description("음식점 등록 및 음식 주문을 할 수 있는 서비스입니다.")
+                .title("차박")
+                .description("차박 장소 추천")
                 .version("1.0.0")
-                .termsOfServiceUrl("https://antstudy.tistory.com/")
+                .termsOfServiceUrl("https://www.notion.so/4-6-10-6d4bde31359447f282101443beab8fe7")
                 .license("LICENSE")
                 .licenseUrl("")
                 .build();
