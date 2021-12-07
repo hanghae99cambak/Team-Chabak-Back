@@ -44,7 +44,7 @@ dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
     //S3 의존성 추가
-    compileOnly 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
+    //compileOnly 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
 }
 
 test {
