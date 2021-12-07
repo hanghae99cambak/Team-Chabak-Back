@@ -10,11 +10,11 @@ import com.sparta.hanghaechabak.model.User;
 import com.sparta.hanghaechabak.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -25,11 +25,11 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto savePost(BoardRequestDto boardRequestDto, User user) {
+        if (user != null) throw new ErrorNotFoundUserException(ErrorCode.NOT_LOGIN);
         Board post = Board.builder()
                 .author(user.getNickname())
                 .content(boardRequestDto.getContent())
                 .location(boardRequestDto.getLocation())
-                .image(boardRequestDto.getImage())
                 .user(user)
                 .build();
         boardRepository.save(post);
@@ -40,26 +40,25 @@ public class BoardService {
                 .author(post.getAuthor())
                 .location(post.getLocation())
                 .content(post.getContent())
-                .image(post.getImage())
                 .build();
     }
 
+    @Transactional
     public BoardResponseDto modify(Long boardId, BoardRequestDto boardRequestDto, User user) {
         Board modifyBoard = boardRepository.findById(boardId).orElseThrow(() ->  new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
         if (!modifyBoard.getUser().getId().equals(user.getId())) throw new ErrorNotFoundUserException(ErrorCode.ERROR_NOTMATCH_MODIFY);
 
         Board newUpdateBoard = modifyBoard.builder()
                 .id(boardId)
+                .author(user.getNickname())
                 .content(boardRequestDto.getContent())
                 .location(boardRequestDto.getLocation())
-                .image(boardRequestDto.getImage())
                 .user(user)
                 .build();
 
 
         return BoardResponseDto.builder()
                 .id(newUpdateBoard.getId())
-                .image(newUpdateBoard.getImage())
                 .content(newUpdateBoard.getContent())
                 .location(newUpdateBoard.getLocation())
                 .author(newUpdateBoard.getAuthor())
@@ -73,7 +72,6 @@ public class BoardService {
         return BoardResponseDto.builder()
                 .id(board.getId())
                 .location(board.getLocation())
-                .image(board.getImage())
                 .content(board.getContent())
                 .author(board.getAuthor())
                 .build();
@@ -86,7 +84,9 @@ public class BoardService {
         return boardId;
     }
 
-    public Page<Board> findAllPaging(Pageable pageable) {
-        return boardRepository.findAll(pageable);
+    public Page<BoardResponseDto>findAllPaging(int nowPage, int count) {
+        PageRequest pageRequest =  PageRequest.of(nowPage, count,Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Board> page = boardRepository.findAll(pageRequest);
+        return page.map(boardInfo -> new BoardResponseDto(boardInfo.getId(), boardInfo.getAuthor(), boardInfo.getContent(), boardInfo.getLocation()));
     }
 }
