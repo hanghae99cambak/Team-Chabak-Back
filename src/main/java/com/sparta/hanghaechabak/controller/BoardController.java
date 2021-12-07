@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BoardController {
 
-    private BoardService boardService;
+    private final BoardService boardService;
 
-/*    @ApiOperation(value = "게시글 등록")
+   /* @ApiOperation(value = "게시글 등록")
     @PostMapping("/api/board")
-    public void boardUpload(@RequestBody @Valid BoardRequestDto boardRequestDto, *//*,@AuthenticationPrincipal CustomUserDetail userDetail*//*) {
-        boardService.savePost(boardRequestDto, userDetail.getUser());
+    public void boardUpload(@RequestBody @Valid BoardRequestDto boardRequestDto, ,@AuthenticationPrincipal CustomUserDetail userDetail) {
+                            boardService.savePost(boardRequestDto, userDetail.getUser());
     }*/
 
     @ApiOperation(value = "게시글 수정")
