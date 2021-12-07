@@ -2,14 +2,12 @@ package com.sparta.hanghaechabak.controller;
 
 import com.sparta.hanghaechabak.dto.request.BoardRequestDto;
 import com.sparta.hanghaechabak.dto.response.BoardResponseDto;
-import com.sparta.hanghaechabak.model.Board;
 import com.sparta.hanghaechabak.security.UserDetailsImpl;
 import com.sparta.hanghaechabak.service.BoardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
