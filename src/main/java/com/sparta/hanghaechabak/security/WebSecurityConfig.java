@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -28,20 +29,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 회원 관리 처리 API (POST /user/**) 에 대해 CSRF 무시
-<<<<<<< HEAD
         http.csrf()
                 .ignoringAntMatchers("/user/**")
                 .ignoringAntMatchers("/api/board");
 
         http.authorizeRequests()
                 .antMatchers("/","/home/**").permitAll()
-=======
-        http.csrf().disable();
-//                .ignoringAntMatchers("/user/**")
-//                .ignoringAntMatchers("/api/board");
-
-        http.authorizeRequests()
->>>>>>> 4841dfeb5e12d023c507d72c02aeb81fa1cdc048
                 // image 폴더를 login 없이 허용
                 .antMatchers("/img/**").permitAll()
                 // css 폴더를 login 없이 허용
@@ -53,11 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // api
 //                    .antMatchers("/api/**").permitAll()
                 // 게시판 글 모두 조회 가능
-<<<<<<< HEAD
                 .antMatchers("/detail/**").permitAll()
-=======
-                .antMatchers("/**").permitAll()
->>>>>>> 4841dfeb5e12d023c507d72c02aeb81fa1cdc048
                 // 그 외 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
                 .and()

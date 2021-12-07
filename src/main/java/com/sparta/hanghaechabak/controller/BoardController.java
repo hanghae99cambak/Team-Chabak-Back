@@ -8,14 +8,13 @@ import com.sparta.hanghaechabak.service.BoardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-=======
->>>>>>> 4841dfeb5e12d023c507d72c02aeb81fa1cdc048
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+
 
 @Api(tags = {"Board"})
 @RestController
@@ -26,7 +25,7 @@ public class BoardController {
 
     @ApiOperation(value = "게시글 등록")
     @PostMapping("/api/board")
-    public BoardResponseDto boardUpload(@RequestBody @Valid BoardRequestDto boardRequestDto ,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public BoardResponseDto boardUpload(@RequestBody @Valid BoardRequestDto boardRequestDto , @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.savePost(boardRequestDto,userDetails.getUser());
     }
 
