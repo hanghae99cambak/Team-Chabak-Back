@@ -30,6 +30,9 @@ public class UserService {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
 
+        // 패스워드 중복 체크 (예정)
+
+
         // 패스워드 암호화
         String password = passwordEncoder.encode(requestDto.getPassword());
         String email = requestDto.getEmail();
@@ -41,9 +44,9 @@ public class UserService {
                 throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
             }
             role = UserRoleEnum.ADMIN;
-        }
 
-        User user = new User(username, password, email, role);
-        userRepository.save(user);
+            User user = new User(username, password, email, role);
+            userRepository.save(user);
+        }
     }
 }

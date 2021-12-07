@@ -2,15 +2,20 @@ package com.sparta.hanghaechabak.controller;
 
 import com.sparta.hanghaechabak.dto.request.BoardRequestDto;
 import com.sparta.hanghaechabak.dto.response.BoardResponseDto;
+import com.sparta.hanghaechabak.model.Board;
 import com.sparta.hanghaechabak.security.UserDetailsImpl;
 import com.sparta.hanghaechabak.service.BoardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Api(tags = {"Board"})
 @RestController
@@ -21,32 +26,48 @@ public class BoardController {
 
     @ApiOperation(value = "게시글 등록")
     @PostMapping("/api/board")
-    public BoardResponseDto boardUpload(@RequestBody @Valid BoardRequestDto boardRequestDto ,@AuthenticationPrincipal UserDetailsImpl userDetails/*, @RequestParam MultipartFile multipartFile*/) {
-        return boardService.savePost(boardRequestDto,userDetails.getUser());
+    public BoardResponseDto boardUpload(
+            @RequestBody @Valid BoardRequestDto boardRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam MultipartFile multipartFile
+    ) throws IOException {
+        return boardService.savePost(boardRequestDto,userDetails.getUser(), multipartFile);
     }
 
     @ApiOperation(value = "게시글 수정")
     @PutMapping("/api/board/detail/{id}")
-    public BoardResponseDto boardUpdate(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return boardService.modify(id,boardRequestDto,userDetails.getUser());
+    public BoardResponseDto boardUpdate(
+            @PathVariable Long id,
+            @RequestBody BoardRequestDto boardRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestParam MultipartFile multipartFile
+    ) throws IOException {
+        return boardService.modify(id,boardRequestDto,userDetails.getUser(), multipartFile);
     }
 
     @ApiOperation(value = "게시글 조회")
     @GetMapping("/api/board")
-    public Page<BoardResponseDto> boardGetList(@RequestParam int nowPage, @RequestParam int count) {
-        return boardService.findAllPaging(nowPage,count);
+    public Page<BoardResponseDto> boardGetList(
+            @RequestParam int nowPage
+    ) {
+        return boardService.findAllPaging(nowPage);
     }
 
 
     @ApiOperation(value = "게시글 상세조회")
     @GetMapping("/api/board/detail/{id}")
-    public BoardResponseDto boardGetDetail(@PathVariable Long id) {
+    public BoardResponseDto boardGetDetail(
+            @PathVariable Long id
+    ) {
         return boardService.findOne(id);
     }
 
     @ApiOperation(value = "게시글 삭제")
     @DeleteMapping ("/api/board/detail/{id}")
-    public Long boardDelete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public Long boardDelete(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         return boardService.deletePost(id,userDetails.getUser().getId());
 
     }
