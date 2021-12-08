@@ -36,7 +36,7 @@
 - Redux
 - JavaScript
 - HTML, CSS
-- 
+
 <br/>
 
 ### DevOps
