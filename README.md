@@ -22,6 +22,13 @@
 
 <br/>
 
+## Team Chabak Backend
+- 김우진
+- 전종민 
+- 임전혁
+
+<br/>
+
 ## 기술 스택
 ### Back-end
 - Java 8
@@ -60,3 +67,6 @@
 - API 설계 - 노션 페이지, Swagger API 문서 자동화
 - ERD 설계 - ERDcloud
 - 와이어프레임 - 피그마(Figma)
+
+---
+# 프로젝트 후기
