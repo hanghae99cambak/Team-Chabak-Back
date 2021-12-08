@@ -40,7 +40,6 @@ dependencies {
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
     // JWT 토큰
-    implementation 'org.mariadb.jdbc:mariadb-java-client'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'commons-codec:commons-codec:1.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
@@ -50,6 +49,13 @@ dependencies {
     // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+    // validation 의존성 추가
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // 아마존 의존성 추가
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
 }
 
 test {

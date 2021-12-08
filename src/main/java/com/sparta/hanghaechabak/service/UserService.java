@@ -25,17 +25,22 @@ public class UserService {
     public void registerUser(SignupRequestDto requestDto) {
         // 회원 ID 중복 확인
         String username = requestDto.getUsername();
+        String email = requestDto.getEmail();
+
         Optional<User> found = userRepository.findByNickname(username);
         if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
-
+        // email 중복확인 체크
+        Optional<User> found_email = userRepository.findByEmail(email);
+        if (found_email.isPresent()) {
+            throw new IllegalArgumentException("중복된 사용자 Email 이 존재합니다.");
+        }
         // 패스워드 중복 체크 (예정)
 
 
         // 패스워드 암호화
         String password = passwordEncoder.encode(requestDto.getPassword());
-        String email = requestDto.getEmail();
 
         // 사용자 ROLE 확인
         UserRoleEnum role = UserRoleEnum.USER;
@@ -45,7 +50,6 @@ public class UserService {
             }
             role = UserRoleEnum.ADMIN;
         }
-
         User user = new User(username, password, email, role);
         userRepository.save(user);
     }

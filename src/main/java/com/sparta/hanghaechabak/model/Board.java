@@ -1,13 +1,14 @@
 package com.sparta.hanghaechabak.model;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
 
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @Entity
 public class Board extends Timestamped {
@@ -17,7 +18,7 @@ public class Board extends Timestamped {
     private Long id;
 
     @Column(nullable = false)
-    private String author;
+    private String nickname;
 
     @Column(nullable = false)
     private String location;
@@ -33,5 +34,4 @@ public class Board extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_Id", nullable = false)
     private User user;
-
 }

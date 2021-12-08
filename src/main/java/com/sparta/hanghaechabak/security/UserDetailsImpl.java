@@ -26,7 +26,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        //System.out.println("로그인 : "+user.getUsername());
         return user.getNickname();
     }
 

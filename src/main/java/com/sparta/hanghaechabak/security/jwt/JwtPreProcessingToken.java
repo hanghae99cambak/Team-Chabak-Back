@@ -1,6 +1,5 @@
 package com.sparta.hanghaechabak.security.jwt;
 
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public class JwtPreProcessingToken extends UsernamePasswordAuthenticationToken {
