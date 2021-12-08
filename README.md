@@ -29,7 +29,7 @@
 
 <br/>
 
-## 기술 스택
+## 기술 스택 🧰
 ### Back-end
 - Java 8
 - SpringBoot 2.5.3  
