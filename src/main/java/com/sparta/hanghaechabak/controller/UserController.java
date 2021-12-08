@@ -25,7 +25,7 @@ public class UserController {
 
     // 회원 로그인 페이지
     @ApiOperation(value = "회원 로그인 페이지")
-    @GetMapping("/user/login")
+    @GetMapping("/user/loginView")
     public String login() {
         return "login";
     }
@@ -41,8 +41,9 @@ public class UserController {
     @ApiOperation(value = "회원 가입 요청 처리")
     @PostMapping("/user/signup")
     public String registerUser(SignupRequestDto requestDto) {
+        System.out.println(requestDto.getAdminToken());
         userService.registerUser(requestDto);
-        return "redirect:/user/login";
+        return "redirect:/user/loginView";
     }
 
     @ApiOperation(value = "kakao_callback")
