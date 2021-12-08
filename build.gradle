@@ -26,18 +26,15 @@ dependencies {
     runtimeOnly 'com.h2database:h2:1.4.200'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
     testImplementation 'org.springframework.security:spring-security-test:5.5.1'
 
     // 테스트 코드를 위한 Lombok 라이브러리
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
-
+    
     // 스프링 부트 테스트를 위한 라이브러리
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
-
-    // Swagger
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
     // JWT 토큰
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
@@ -46,16 +43,16 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
     compileOnly 'com.auth0:java-jwt:3.13.0'
 
-    // thymeleaf
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
-    // validation 의존성 추가
+     // validation 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+   
+    // Swagger
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
-    // 아마존 의존성 추가
-    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
-    implementation 'com.amazonaws:aws-java-sdk-s3'
+    // AWS S3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
 }
 
 test {
