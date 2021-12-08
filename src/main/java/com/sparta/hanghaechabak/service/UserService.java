@@ -53,4 +53,8 @@ public class UserService {
         User user = new User(username, password, email, role);
         userRepository.save(user);
     }
+
+    public Boolean nicknameDuplicate(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
 }

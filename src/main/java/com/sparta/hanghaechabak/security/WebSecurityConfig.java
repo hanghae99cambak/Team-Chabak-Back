@@ -44,6 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js/**").permitAll()
                 // api
 //                    .antMatchers("/api/**").permitAll()
+                //Swagger
+                .antMatchers("/swagger-ui.html").permitAll()
                 // 게시판 글 모두 조회 가능
                 .antMatchers("/detail/**").permitAll()
                 // 그 외 어떤 요청이든 '인증'
