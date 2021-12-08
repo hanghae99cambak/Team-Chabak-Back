@@ -1,18 +1,19 @@
 package com.sparta.hanghaechabak.controller;
 
+import com.amazonaws.services.s3.model.JSONOutput;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.sparta.hanghaechabak.dto.SignupRequestDto;
 import com.sparta.hanghaechabak.service.KakaoUserService;
 import com.sparta.hanghaechabak.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Collections;
+
+@RestController
 public class UserController {
 
     private final UserService userService;
