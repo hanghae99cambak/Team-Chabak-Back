@@ -74,20 +74,43 @@ public class BoardService {
                 .id(boardId)
                 .content(boardRequestDto.getContent())
                 .location(boardRequestDto.getLocation())
+                .nickname(boardRequestDto.getNickname())
                 .user(user)
                 .build();
 
         if(multipartFile != null) {
             String imageUrl = s3Uploader.upload(multipartFile, imageDirName);
-            newUpdateBoard.builder()
+
+            Board updateBoard = Board.builder()
+                    .id(boardId)
+                    .nickname(modifyBoard.getNickname())
                     .image(imageUrl)
+                    .location(modifyBoard.getLocation())
+                    .content(modifyBoard.getContent())
+                    .user(user)
                     .build();
+
+            boardRepository.save(updateBoard);
+
+            return BoardResponseDto.builder()
+                    .id(updateBoard.getId())
+                    .image(updateBoard.getImage())
+                    .location(updateBoard.getLocation())
+                    .content(updateBoard.getContent())
+                    .nickname(updateBoard.getNickname())
+                    .build();
+
+         /*   newUpdateBoard.builder()
+                    .image(imageUrl)
+                    .build();*/
         } else {
             newUpdateBoard.builder()
                     .image(modifyBoard.getImage())
                     .build();
         }
 
+        System.out.println(newUpdateBoard.getImage());
+        boardRepository.save(newUpdateBoard);
         return BoardResponseDto.builder()
                 .id(newUpdateBoard.getId())
                 .image(newUpdateBoard.getImage())

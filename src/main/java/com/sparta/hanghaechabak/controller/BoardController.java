@@ -25,9 +25,10 @@ public class BoardController {
     @ApiOperation(value = "게시글 등록")
     @PostMapping("/api/board")
     public BoardResponseDto boardUpload(
-            @RequestBody @Valid BoardRequestDto boardRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestParam MultipartFile multipartFile
+            @RequestPart(value = "boardRequestDto") @Valid BoardRequestDto boardRequestDto,
+            // To Do: value값 수정 필요
+            @RequestPart(required = false) MultipartFile multipartFile
     ) throws IOException {
         return boardService.savePost(boardRequestDto,userDetails.getUser(), multipartFile);
     }
@@ -36,9 +37,9 @@ public class BoardController {
     @PutMapping("/api/board/detail/{id}")
     public BoardResponseDto boardUpdate(
             @PathVariable Long id,
-            @RequestBody BoardRequestDto boardRequestDto,
+            @RequestPart(value = "boardRequestDto") BoardRequestDto boardRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestParam MultipartFile multipartFile
+            @RequestPart(required = false) MultipartFile multipartFile
     ) throws IOException {
         return boardService.modify(id,boardRequestDto,userDetails.getUser(), multipartFile);
     }

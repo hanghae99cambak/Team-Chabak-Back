@@ -16,6 +16,4 @@ public class BoardResponseDto {
     private String content;
     private String location;
     private String image;
-
-
 }
