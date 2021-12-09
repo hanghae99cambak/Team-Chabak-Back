@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -140,10 +142,11 @@ public class BoardService {
     }
 
 
-    public Page<BoardResponseDto> findAllPaging(int nowPage) {
-        PageRequest pageRequest = PageRequest.of(nowPage, 4, Sort.by(Sort.Direction.DESC,"createdAt"));
-        Page<Board> all = boardRepository.findAll(pageRequest);
+    public List<BoardResponseDto> findAllPaging() {
+        //PageRequest pageRequest = PageRequest.of(nowPage, 3, Sort.by(Sort.Direction.DESC,"createdAt"));
+        List<Board> board = boardRepository.findAll();
 
-        return all.map( b -> new BoardResponseDto(b.getId(),b.getNickname(),b.getContent(),b.getLocation(),b.getImage()));
+        //return all.map( b -> new BoardResponseDto(b.getId(),b.getNickname(),b.getContent(),b.getLocation(),b.getImage()));
+        return board.stream().map(b -> new BoardResponseDto(b.getId(), b.getNickname(), b.getContent(), b.getLocation(), b.getImage())).collect(Collectors.toList());
     }
 }

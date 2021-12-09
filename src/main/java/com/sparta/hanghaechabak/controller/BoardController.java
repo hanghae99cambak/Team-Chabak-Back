@@ -8,12 +8,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Api(tags = {"Board"})
 @RestController
@@ -23,15 +25,22 @@ public class BoardController {
     private final BoardService boardService;
 
     @ApiOperation(value = "게시글 등록")
-    @PostMapping("/api/board")
+    //@PostMapping(value = "/api/board", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(value = "/api/board", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE },  headers = ("content-type=multipart/form-data;boundary=032a1ab685934650abbe059cb45d6ff3"))
     public BoardResponseDto boardUpload(
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestPart(value = "boardRequestDto") @Valid BoardRequestDto boardRequestDto,
-            // To Do: value값 수정 필요
-            @RequestPart(required = false) MultipartFile multipartFile
+//            @AuthenticationPrincipal UserDetailsImpl userDetails,
+//            @RequestPart(value = "boardRequestDto") @Valid BoardRequestDto boardRequestDto,
+              @RequestParam(required = false) MultipartFile multipartFile
+           // MultipartFile multipartFile
     ) throws IOException {
-        return boardService.savePost(boardRequestDto,userDetails.getUser(), multipartFile);
+//        return boardService.savePost(boardRequestDto,userDetails.getUser(), multipartFile);
+        System.out.println(multipartFile);
+        System.out.println(multipartFile.getContentType());
+        System.out.println(multipartFile.getName());
+        return null;
     }
+
+
 
     @ApiOperation(value = "게시글 수정")
     @PutMapping("/api/board/detail/{id}")
@@ -46,10 +55,9 @@ public class BoardController {
 
     @ApiOperation(value = "게시글 조회")
     @GetMapping("/api/board")
-    public Page<BoardResponseDto> boardGetList(
-            @RequestParam int nowPage
+    public List<BoardResponseDto> boardGetList(
     ) {
-        return boardService.findAllPaging(nowPage);
+        return boardService.findAllPaging();
     }
 
 

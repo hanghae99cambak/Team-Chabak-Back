@@ -41,7 +41,7 @@ public class UserController {
     public List<Map<String,String>> userLogin(@RequestBody LoginRequestDto requestDto) {
         return userService.login(requestDto);
     }
-
+    
 
     @ApiOperation(value = "kakao_callback")
     @GetMapping("/user/kakao/callback")
