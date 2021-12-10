@@ -1,4 +1,4 @@
-package com.sparta.hanghaechabak.config;
+package com.sparta.hanghaechabak.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -20,7 +20,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private String secretKey = "webfirewood";
+    private String secretKey = "webfir516vSAtkubF416DfgfgG6yDFukj9wood";
 
     // 토큰 유효시간 30분
     private long tokenValidTime = 30 * 60 * 1000L;

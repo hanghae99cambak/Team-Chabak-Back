@@ -49,10 +49,10 @@ public class S3Uploader {
     // 로컬에 저장된 이미지 지우기
     private void removeNewFile(File targetFile) {
         if (targetFile.delete()) {
-            log.info("File delete success");
+            log.info("local File delete success");
             return;
         }
-        log.info("File delete fail");
+        log.info("local File delete fail");
     }
 
     // 로컬에 파일 업로드 하기

@@ -7,8 +7,6 @@ import com.sparta.hanghaechabak.service.BoardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,28 +23,21 @@ public class BoardController {
     private final BoardService boardService;
 
     @ApiOperation(value = "게시글 등록")
-    //@PostMapping(value = "/api/board", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
-    @PostMapping(value = "/api/board", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE },  headers = ("content-type=multipart/form-data;boundary=032a1ab685934650abbe059cb45d6ff3"))
+    @PostMapping("/api/board")
     public BoardResponseDto boardUpload(
-//            @AuthenticationPrincipal UserDetailsImpl userDetails,
-//            @RequestPart(value = "boardRequestDto") @Valid BoardRequestDto boardRequestDto,
-              @RequestParam("multipartFile") MultipartFile multipartFile
-           // MultipartFile multipartFile
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestPart(value = "data") @Valid BoardRequestDto boardRequestDto,
+            @RequestPart(value = "multipartFile") MultipartFile multipartFile
     ) throws IOException {
-//        return boardService.savePost(boardRequestDto,userDetails.getUser(), multipartFile);
-        System.out.println(multipartFile);
-        System.out.println(multipartFile.getContentType());
-        System.out.println(multipartFile.getName());
-        return null;
+        return boardService.savePost(boardRequestDto,userDetails.getUser(), multipartFile);
     }
-
 
 
     @ApiOperation(value = "게시글 수정")
     @PutMapping("/api/board/detail/{id}")
     public BoardResponseDto boardUpdate(
             @PathVariable Long id,
-            @RequestPart(value = "boardRequestDto") BoardRequestDto boardRequestDto,
+            @RequestPart(value = "data") BoardRequestDto boardRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestPart(required = false) MultipartFile multipartFile
     ) throws IOException {
@@ -76,6 +67,6 @@ public class BoardController {
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         return boardService.deletePost(id,userDetails.getUser().getId());
-
     }
+
 }

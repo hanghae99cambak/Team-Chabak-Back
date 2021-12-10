@@ -10,14 +10,13 @@ import com.sparta.hanghaechabak.model.User;
 import com.sparta.hanghaechabak.repository.BoardRepository;
 import com.sparta.hanghaechabak.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,12 +80,12 @@ public class BoardService {
                 .build();
 
         if(multipartFile != null) {
-            String imageUrl = s3Uploader.upload(multipartFile, imageDirName);
+//            String imageUrl = s3Uploader.upload(multipartFile, imageDirName);
 
             Board updateBoard = Board.builder()
                     .id(boardId)
                     .nickname(modifyBoard.getNickname())
-                    .image(imageUrl)
+//                    .image(imageUrl)
                     .location(modifyBoard.getLocation())
                     .content(modifyBoard.getContent())
                     .user(user)
@@ -142,11 +141,13 @@ public class BoardService {
     }
 
 
+
     public List<BoardResponseDto> findAllPaging() {
         //PageRequest pageRequest = PageRequest.of(nowPage, 3, Sort.by(Sort.Direction.DESC,"createdAt"));
-        List<Board> board = boardRepository.findAll();
+        List<Board> board = boardRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
 
-        //return all.map( b -> new BoardResponseDto(b.getId(),b.getNickname(),b.getContent(),b.getLocation(),b.getImage()));
-        return board.stream().map(b -> new BoardResponseDto(b.getId(), b.getNickname(), b.getContent(), b.getLocation(), b.getImage())).collect(Collectors.toList());
+        return board.stream().map(s-> new BoardResponseDto(s.getId(),s.getNickname(),s.getContent(),s.getLocation(),s.getImage())).collect(Collectors.toList());
+
+
     }
 }

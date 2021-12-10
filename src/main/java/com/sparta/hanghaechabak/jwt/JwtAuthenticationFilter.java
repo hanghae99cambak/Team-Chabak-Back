@@ -1,4 +1,4 @@
-package com.sparta.hanghaechabak.config;
+package com.sparta.hanghaechabak.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

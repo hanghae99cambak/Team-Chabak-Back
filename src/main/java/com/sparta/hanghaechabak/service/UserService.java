@@ -1,6 +1,6 @@
 package com.sparta.hanghaechabak.service;
 
-import com.sparta.hanghaechabak.config.JwtTokenProvider;
+import com.sparta.hanghaechabak.jwt.JwtTokenProvider;
 import com.sparta.hanghaechabak.dto.LoginRequestDto;
 import com.sparta.hanghaechabak.dto.SignupRequestDto;
 import com.sparta.hanghaechabak.model.User;
@@ -64,7 +64,7 @@ public class UserService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         Map<String,String> username =new HashMap<>();
-        Map<String,String>token = new HashMap<>();
+        Map<String,String> token = new HashMap<>();
         List<Map<String,String>> tu = new ArrayList<>(); // -> 리스트를 만드는데, Map형태(키:밸류 형태)의 변수들을 담을 것이다.
 
         token.put("token",jwtTokenProvider.createToken(member.getNickname(), Long.toString(member.getId())));

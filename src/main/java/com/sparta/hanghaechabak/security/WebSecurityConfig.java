@@ -1,7 +1,8 @@
 package com.sparta.hanghaechabak.security;
 
-import com.sparta.hanghaechabak.config.JwtAuthenticationFilter;
-import com.sparta.hanghaechabak.config.JwtTokenProvider;
+import com.sparta.hanghaechabak.config.CorsConfig;
+import com.sparta.hanghaechabak.jwt.JwtAuthenticationFilter;
+import com.sparta.hanghaechabak.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
-//    private final WebMvcConfig webMvcConfig;
 
     private final CorsConfig corsConfig;
 
@@ -31,8 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
-        web
-                .ignoring()
+        web     .ignoring()
+                .antMatchers("/api/board")
                 .antMatchers("/v2/api-docs", "/configuration/ui",
                 "/swagger-resources", "/configuration/security",
                 "/swagger-ui.html", "/webjars/**","/swagger/**");
@@ -69,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // JS 폴더를
                 .antMatchers("/js/**").permitAll()
                 // api
+                .antMatchers("/oauth/callback/kakao").permitAll()
 //                    .antMatchers("/api/**").permitAll()
                 //Swagger
                 .antMatchers("/swagger-ui.html","/swagger/**","/swagger-resources/**").permitAll()

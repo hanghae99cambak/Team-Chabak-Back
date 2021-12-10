@@ -1,4 +1,4 @@
-package com.sparta.hanghaechabak.security;
+package com.sparta.hanghaechabak.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
