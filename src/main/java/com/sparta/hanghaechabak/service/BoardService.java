@@ -74,7 +74,7 @@ public class BoardService {
 
         BoardResponseDto responseDto = new BoardResponseDto();
         String imageUrl = "";
-        System.out.println(multipartFile.getSize());
+
         if (multipartFile.getSize() != 0) {
             imageUrl = s3Uploader.upload(multipartFile, imageDirName);
             modifyBoard.updateImage(boardRequestDto, imageUrl);
@@ -111,7 +111,6 @@ public class BoardService {
                 .orElseThrow(
                         () -> new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
         if (!board.getUser().getId().equals(nowLoginUserId)) {
-            System.out.println(ErrorCode.ERROR_NOTMATCH_DELETE);
             throw new ErrorNotFoundUserException(ErrorCode.ERROR_NOTMATCH_DELETE);
         }
         boardRepository.deleteById(boardId);
