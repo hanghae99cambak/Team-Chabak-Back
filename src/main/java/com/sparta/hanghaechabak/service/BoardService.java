@@ -14,9 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +59,8 @@ public class BoardService {
                 .build();
     }
 
+
+    @Transactional
     public BoardResponseDto modify(
             Long boardId,
             BoardRequestDto boardRequestDto,
@@ -67,57 +68,28 @@ public class BoardService {
             MultipartFile multipartFile
     ) throws IOException {
 
-        Board modifyBoard = boardRepository.findById(boardId).orElseThrow(() ->  new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
-        if (!modifyBoard.getUser().getId().equals(user.getId())) throw new ErrorNotFoundUserException(ErrorCode.ERROR_NOTMATCH_MODIFY);
+        Board modifyBoard = boardRepository.findById(boardId).orElseThrow(() -> new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
+        if (!modifyBoard.getUser().getId().equals(user.getId()))
+            throw new ErrorNotFoundUserException(ErrorCode.ERROR_NOTMATCH_MODIFY);
 
+        BoardResponseDto responseDto = new BoardResponseDto();
+        String imageUrl = "";
+        System.out.println(multipartFile.getSize());
+        if (multipartFile.getSize() != 0) {
+            imageUrl = s3Uploader.upload(multipartFile, imageDirName);
+            modifyBoard.updateImage(boardRequestDto, imageUrl);
 
-        Board newUpdateBoard = modifyBoard.builder()
-                .id(boardId)
-                .content(boardRequestDto.getContent())
-                .location(boardRequestDto.getLocation())
-                .nickname(boardRequestDto.getNickname())
-                .user(user)
-                .build();
-
-        if(multipartFile != null) {
-//            String imageUrl = s3Uploader.upload(multipartFile, imageDirName);
-
-            Board updateBoard = Board.builder()
-                    .id(boardId)
-                    .nickname(modifyBoard.getNickname())
-//                    .image(imageUrl)
-                    .location(modifyBoard.getLocation())
-                    .content(modifyBoard.getContent())
-                    .user(user)
-                    .build();
-
-            boardRepository.save(updateBoard);
-
-            return BoardResponseDto.builder()
-                    .id(updateBoard.getId())
-                    .image(updateBoard.getImage())
-                    .location(updateBoard.getLocation())
-                    .content(updateBoard.getContent())
-                    .nickname(updateBoard.getNickname())
-                    .build();
-
-         /*   newUpdateBoard.builder()
-                    .image(imageUrl)
-                    .build();*/
         } else {
-            newUpdateBoard.builder()
-                    .image(modifyBoard.getImage())
-                    .build();
+            modifyBoard.updateImage(boardRequestDto, imageUrl);
         }
 
-        System.out.println(newUpdateBoard.getImage());
-        boardRepository.save(newUpdateBoard);
-        return BoardResponseDto.builder()
-                .id(newUpdateBoard.getId())
-                .image(newUpdateBoard.getImage())
-                .content(newUpdateBoard.getContent())
-                .location(newUpdateBoard.getLocation())
-                .nickname(newUpdateBoard.getNickname())
+        boardRepository.save(modifyBoard);
+        return responseDto.builder()
+                .id(modifyBoard.getId())
+                .nickname(modifyBoard.getNickname())
+                .location(modifyBoard.getLocation())
+                .content(modifyBoard.getContent())
+                .image(modifyBoard.getImage())
                 .build();
     }
 
@@ -133,9 +105,15 @@ public class BoardService {
                 .build();
     }
 
+    @Transactional
     public Long deletePost(Long boardId, Long nowLoginUserId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
-        if (!board.getUser().getId().equals(nowLoginUserId)) throw new ErrorNotFoundUserException(ErrorCode.ERROR_NOTMATCH_DELETE);
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(
+                        () -> new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
+        if (!board.getUser().getId().equals(nowLoginUserId)) {
+            System.out.println(ErrorCode.ERROR_NOTMATCH_DELETE);
+            throw new ErrorNotFoundUserException(ErrorCode.ERROR_NOTMATCH_DELETE);
+        }
         boardRepository.deleteById(boardId);
         return boardId;
     }

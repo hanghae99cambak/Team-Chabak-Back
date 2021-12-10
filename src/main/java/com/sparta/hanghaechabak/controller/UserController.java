@@ -1,10 +1,9 @@
 package com.sparta.hanghaechabak.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sparta.hanghaechabak.dto.HeaderDto;
 import com.sparta.hanghaechabak.dto.LoginRequestDto;
 import com.sparta.hanghaechabak.dto.SignupRequestDto;
-import com.sparta.hanghaechabak.dto.HeaderDto;
-import com.sparta.hanghaechabak.dto.request.ResponseDto;
 import com.sparta.hanghaechabak.jwt.JwtTokenProvider;
 import com.sparta.hanghaechabak.service.KakaoUserService;
 import com.sparta.hanghaechabak.service.UserService;
@@ -13,9 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @Api(tags = {"User"})
 @RestController
@@ -24,7 +22,7 @@ public class UserController {
 
     private final UserService userService;
     private final KakaoUserService kakaoUserService;
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
 
 
     @ApiOperation(value = "회원 가입 요청 처리")
@@ -76,7 +74,7 @@ public class UserController {
 //    }
 
     @ApiOperation(value = "kakao_callback")
-    @GetMapping("/oauth/kakao/callback")
+    @GetMapping("/oauth/callback/kakao")
     public HeaderDto kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         System.out.println(code);
         return kakaoUserService.kakaoLogin(code);

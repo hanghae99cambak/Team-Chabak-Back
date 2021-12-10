@@ -29,27 +29,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        // h2-console 사용에 대한 허용 (CSRF, FrameOptions 무시)
         web     .ignoring()
                 .antMatchers("/api/board")
                 .antMatchers("/v2/api-docs", "/configuration/ui",
                 "/swagger-resources", "/configuration/security",
                 "/swagger-ui.html", "/webjars/**","/swagger/**");
-//                .antMatchers("/swagger-ui.html");
     }
-//    @Bean
-//    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-//        return new JwtAuthenticationFilter();
-//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // 회원 관리 처리 API (POST /user/**) 에 대해 CSRF 무시
+        // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
         http.csrf().disable()
-                // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
                 .addFilter(corsConfig.corsFilter())
-//                .ignoringAntMatchers("/user/**")
-//                .ignoringAntMatchers("/api/board")
-//                .addFilterBefore(jwtAuthenticationFilter(), new UsernamePasswordAuthenticationFilter())
         .headers().frameOptions().disable();
 
         http.authorizeRequests()
