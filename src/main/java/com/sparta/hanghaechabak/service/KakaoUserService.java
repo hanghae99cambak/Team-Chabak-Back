@@ -1,5 +1,7 @@
 package com.sparta.hanghaechabak.service;
 
+import com.sparta.hanghaechabak.config.JwtTokenProvider;
+import com.sparta.hanghaechabak.dto.HeaderDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,25 +31,33 @@ import java.util.UUID;
 public class KakaoUserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public KakaoUserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public KakaoUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public void kakaoLogin(String code) throws JsonProcessingException {
+    public HeaderDto kakaoLogin(String code) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
+        // 확인용
+        // System.out.println(accessToken);
 
         // 2. 토큰으로 카카오 API 호출
         KakaoUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
+        //System.out.println(kakaoUserInfo);
 
         // 3. 필요시에 회원가입
         User kakaoUser = registerKakaoUserIfNeeded(kakaoUserInfo);
 
         // 4. 강제 로그인 처리
-        forceLogin(kakaoUser);
+
+        HeaderDto headerDto = forceLogin(kakaoUser);
+
+        return headerDto;
     }
 
     private String getAccessToken(String code) throws JsonProcessingException {
@@ -59,7 +69,7 @@ public class KakaoUserService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", "737e574eedc3c6c15cccbf1b2c985a14");
-        body.add("redirect_uri", "http://52.78.31.61:8080/user/kakao/callback");
+        body.add("redirect_uri", "http://localhost:8080/user/kakao/callback");
         body.add("code", code);
 
         // HTTP 요청 보내기
@@ -105,7 +115,6 @@ public class KakaoUserService {
         String email = jsonNode.get("kakao_account")
                 .get("email").asText();
 
-        System.out.println("카카오 사용자 정보: " + id + ", " + nickname + ", " + email);
         return new KakaoUserInfoDto(id, nickname, email);
     }
 
@@ -144,9 +153,13 @@ public class KakaoUserService {
         return kakaoUser;
     }
 
-    private void forceLogin(User kakaoUser) {
+    private HeaderDto forceLogin(User kakaoUser) {
         UserDetails userDetails = new UserDetailsImpl(kakaoUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        HeaderDto headerDto = new HeaderDto();
+        headerDto.setTOKEN(jwtTokenProvider.createToken(kakaoUser.getNickname(),Long.toString(kakaoUser.getKakaoId())));
+        return headerDto;
     }
 }

@@ -1,21 +1,14 @@
 package com.sparta.hanghaechabak.controller;
 
-import com.amazonaws.services.s3.model.JSONOutput;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.sparta.hanghaechabak.config.JwtTokenProvider;
+import com.sparta.hanghaechabak.dto.HeaderDto;
 import com.sparta.hanghaechabak.dto.LoginRequestDto;
 import com.sparta.hanghaechabak.dto.SignupRequestDto;
-import com.sparta.hanghaechabak.model.User;
-import com.sparta.hanghaechabak.repository.UserRepository;
 import com.sparta.hanghaechabak.service.KakaoUserService;
 import com.sparta.hanghaechabak.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -41,12 +34,13 @@ public class UserController {
     public List<Map<String,String>> userLogin(@RequestBody LoginRequestDto requestDto) {
         return userService.login(requestDto);
     }
-    
 
-    @ApiOperation(value = "kakao_callback")
+
+    @ApiOperation(value = "카카오 소셜 로그인")
     @GetMapping("/user/kakao/callback")
-    public void kakaoLogin(@RequestParam String code) throws JsonProcessingException {
-        kakaoUserService.kakaoLogin(code);
+    public HeaderDto kakaoLogin(@RequestParam(value = "code") String code) throws JsonProcessingException {
+        HeaderDto token = kakaoUserService.kakaoLogin(code);
+        return token;
     }
 
 
