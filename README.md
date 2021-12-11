@@ -100,7 +100,7 @@
 
 <img src="https://user-images.githubusercontent.com/70641418/145669235-290d39b2-62b4-405d-84e6-90fcc735264c.JPG" style="width: 1000px;">
 
-백엔드 팀원과 함께 ERD Cloud 사이트에서 DB 설계 했습니다.
+백엔드 팀원과 함께 ERD Cloud 사이트에서 DB 설계 했습니다.  
 ERD Cloud 링크로 이동 =>
 <a href="https://www.erdcloud.com/d/8YAbsi25XhvDwxo7R">클릭</a>
 
