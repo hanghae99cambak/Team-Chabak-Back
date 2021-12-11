@@ -1,6 +1,10 @@
 # Team Chabak 백엔드
 ## 차박 소개🚗  
 
+
+
+<img src="https://user-images.githubusercontent.com/70641418/145668580-4c7fa728-ee26-4648-99f3-283d6ca4f0be.jpg" style="width: 480px;">
+
 차박(차에서 숙박) 할 꿀 장소들을 공유하는 SNS입니다.  
 다양한 차박 장소들을 사진, 지역과 글을 통해 공유할 수 있습니다👍.
 
