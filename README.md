@@ -26,6 +26,12 @@
 
 <br/>
 
+## 메인페이지
+
+<img src="https://user-images.githubusercontent.com/70641418/145668920-6e7a9392-1559-4621-8be8-286200580497.JPG" style="width: 1000px;">
+
+<br/>
+
 ## Team Chabak Backend
 - 김우진 => 로그인, 회원가입 기능 구현
 - 전종민 => 게시판 CRUD 기능 구현
