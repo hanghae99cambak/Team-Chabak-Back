@@ -27,7 +27,7 @@ public class BoardController {
     public BoardResponseDto boardUpload(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestPart(value = "data") @Valid BoardRequestDto boardRequestDto,
-            @RequestPart(value = "multipartFile") MultipartFile multipartFile
+            @RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile
     ) throws IOException {
         return boardService.savePost(boardRequestDto,userDetails.getUser(), multipartFile);
     }

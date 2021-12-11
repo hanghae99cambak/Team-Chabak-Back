@@ -1,5 +1,8 @@
 package com.sparta.hanghaechabak.service;
 
+import com.sparta.hanghaechabak.exception.ErrorDuplicateUserException;
+import com.sparta.hanghaechabak.exception.ErrorNotFoundUserException;
+import com.sparta.hanghaechabak.exception.ErrorUtils.ErrorCode;
 import com.sparta.hanghaechabak.jwt.JwtTokenProvider;
 import com.sparta.hanghaechabak.dto.LoginRequestDto;
 import com.sparta.hanghaechabak.dto.SignupRequestDto;
@@ -32,12 +35,12 @@ public class UserService {
 
         Optional<User> found = userRepository.findByNickname(username);
         if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
+            throw new ErrorDuplicateUserException(ErrorCode.ERROR_DUPLICATE_ID);
         }
         // email 중복확인 체크
         Optional<User> found_email = userRepository.findByEmail(email);
         if (found_email.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자 Email 이 존재합니다.");
+            throw new ErrorDuplicateUserException(ErrorCode.ERROR_DUPLICATE_EMAIL);
         }
 
         // 패스워드 암호화
@@ -52,6 +55,7 @@ public class UserService {
             role = UserRoleEnum.ADMIN;
         }
         User user = new User(username, password, email, role);
+
         userRepository.save(user);
     }
 
@@ -67,11 +71,11 @@ public class UserService {
     ) {
         User member = userRepository.findByNickname(requestDto.getNickname())
                 .orElseThrow(
-                        () -> new IllegalArgumentException("가입되지 않은 nickname 입니다.")
+                        () -> new ErrorNotFoundUserException(ErrorCode.ERROR_USER_ID)
                 );
 
         if (!passwordEncoder.matches(requestDto.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new ErrorNotFoundUserException(ErrorCode.ERROR_USER_PASSWORD);
         }
         Map<String,String> username =new HashMap<>();
         Map<String,String> token = new HashMap<>();

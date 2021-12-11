@@ -36,7 +36,8 @@ public class BoardService {
             MultipartFile multipartFile
     ) throws IOException {
 
-        if(multipartFile == null) {
+
+        if(multipartFile.getSize() == 0) {
             throw new NullPointerException("등록하려는 게시글에 이미지가 없습니다.");
         }
         String imageUrl = s3Uploader.upload(multipartFile, imageDirName);

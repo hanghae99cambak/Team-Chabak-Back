@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -25,14 +26,17 @@ public class UserController {
 
     @ApiOperation(value = "회원 가입 요청 처리")
     @PostMapping("/user/signup")
-    public void registerUser(@RequestBody SignupRequestDto requestDto) {
+    public void registerUser(
+            @RequestBody @Valid SignupRequestDto requestDto
+
+    ) {
         userService.registerUser(requestDto);
     }
 
     @ApiOperation(value = "기본 로그인")
     @PostMapping("/user/login")
     public List<Map<String, String>> userLogin(
-            @RequestBody LoginRequestDto requestDto
+            @RequestBody @Valid LoginRequestDto requestDto
     ) {
         return userService.login(requestDto);
     }
@@ -50,7 +54,6 @@ public class UserController {
     public HeaderDto kakaoLogin(
             @RequestParam String code
     ) throws JsonProcessingException {
-        System.out.println(code);
         return kakaoUserService.kakaoLogin(code);
     }
 

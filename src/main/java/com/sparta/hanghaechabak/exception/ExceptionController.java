@@ -3,9 +3,11 @@ package com.sparta.hanghaechabak.exception;
 import com.sparta.hanghaechabak.exception.ErrorUtils.CustomException;
 import com.sparta.hanghaechabak.exception.ErrorUtils.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
@@ -29,5 +31,21 @@ public class ExceptionController {
                 .status(ex.getErrorCode().getStatus())
                 .timestamp(LocalDateTime.now())
                 .build();
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse processValidationError(MethodArgumentNotValidException exception) {
+        BindingResult bindingResult = exception.getBindingResult();
+
+        for (FieldError fieldError : bindingResult.getFieldErrors()) {
+            return ErrorResponse.builder()
+                    .code(HttpStatus.BAD_REQUEST)
+                    .message(fieldError.getDefaultMessage())
+                    .status(HttpStatus.BAD_REQUEST.value())
+                    .timestamp(LocalDateTime.now())
+                    .build();
+        }
+
+        return ErrorResponse.builder().code(HttpStatus.BAD_REQUEST).build();
     }
 }
