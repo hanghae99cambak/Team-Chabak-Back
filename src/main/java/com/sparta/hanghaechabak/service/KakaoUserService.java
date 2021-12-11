@@ -163,7 +163,6 @@ public class KakaoUserService {
                     .kakaoId(kakaoId)
                     .password(encodedPassword)
                     .nickname(nickname)
-                    .role(UserRoleEnum.USER)
                     .build();
             userRepository.save(kakaoUser);
 
