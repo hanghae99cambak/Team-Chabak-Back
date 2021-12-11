@@ -8,7 +8,8 @@
 차박(차에서 숙박) 할 꿀 장소들을 공유하는 SNS입니다.  
 다양한 차박 장소들을 사진, 지역과 글을 통해 공유할 수 있습니다👍
 
-팀 노션 링크 => <a href="https://www.notion.so/4-6-10-6d4bde31359447f282101443beab8fe7"></a>
+팀 노션 링크 =>
+<a href="https://www.notion.so/4-6-10-6d4bde31359447f282101443beab8fe7">클릭</a>
 
 <br/>
 <br/>
@@ -36,7 +37,8 @@
 
 피그마(Figma)툴을 사용해서 UI를 디자인했습니다.  
 
-피그마로 URL로 이동 => <a href="https://www.figma.com/file/z3liAITH2IJig8fkeEZat2/Untitled">클릭</a>
+피그마로 URL로 이동 =>
+<a href="https://www.figma.com/file/z3liAITH2IJig8fkeEZat2/Untitled">클릭</a>
 
 
 <br/>
@@ -99,7 +101,8 @@
 <img src="https://user-images.githubusercontent.com/70641418/145669235-290d39b2-62b4-405d-84e6-90fcc735264c.JPG" style="width: 1000px;">
 
 백엔드 팀원과 함께 ERD Cloud 사이트에서 DB 설계 했습니다.
-ERD Cloud 링크로 이동 => <a href="https://www.erdcloud.com/d/8YAbsi25XhvDwxo7R">클릭</a>
+ERD Cloud 링크로 이동 =>
+<a href="https://www.erdcloud.com/d/8YAbsi25XhvDwxo7R">클릭</a>
 
 <br/>
 
