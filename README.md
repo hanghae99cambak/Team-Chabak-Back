@@ -26,16 +26,18 @@
 
 <br/>
 
-## 메인페이지
+## 메인 페이지 디자인 및 피그마 툴 사용
 
 <img src="https://user-images.githubusercontent.com/70641418/145668920-6e7a9392-1559-4621-8be8-286200580497.JPG" style="width: 1000px;">
+
+피그마로 URL로 이동 => https://www.figma.com/file/z3liAITH2IJig8fkeEZat2/Untitled
 
 <br/>
 
 ## Team Chabak Backend
-- 김우진 => 로그인, 회원가입 기능 구현
-- 전종민 => 게시판 CRUD 기능 구현
-- 임전혁 => S3 이미지 업로드 기능 구현
+- 김우진 => 로그인, 회원가입 기능 구현  
+- 전종민 => 게시판 CRUD 기능 구현  
+- 임전혁 => S3 이미지 업로드 기능 구현  
 
 <br/>
 
