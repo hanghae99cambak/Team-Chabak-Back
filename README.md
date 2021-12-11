@@ -3,7 +3,7 @@
 
 
 
-<img src="https://user-images.githubusercontent.com/70641418/145668580-4c7fa728-ee26-4648-99f3-283d6ca4f0be.jpg" style="width: 480px;">
+<img src="https://user-images.githubusercontent.com/70641418/145668920-6e7a9392-1559-4621-8be8-286200580497.JPG" style="width: 1000px;">
 
 차박(차에서 숙박) 할 꿀 장소들을 공유하는 SNS입니다.  
 다양한 차박 장소들을 사진, 지역과 글을 통해 공유할 수 있습니다👍.
@@ -26,11 +26,13 @@
 
 <br/>
 
-## 메인 페이지 디자인 및 피그마 툴 사용
+## UI 디자인
 
-<img src="https://user-images.githubusercontent.com/70641418/145668920-6e7a9392-1559-4621-8be8-286200580497.JPG" style="width: 1000px;">
+![피그마](https://user-images.githubusercontent.com/70641418/145669186-173be214-9e25-49c1-bbd7-38487ac7906b.JPG)
 
-피그마로 URL로 이동 => https://www.figma.com/file/z3liAITH2IJig8fkeEZat2/Untitled
+피그마(Figma)툴을 사용해서 UI를 디자인했습니다.  
+
+피그마로 URL로 이동 => https://www.figma.com/file/z3liAITH2IJig8fkeEZat2/Untitled  
 
 <br/>
 
@@ -79,6 +81,17 @@
 - API 설계 - 노션 페이지, Swagger API 문서 자동화
 - ERD 설계 - ERDcloud
 - 와이어프레임 - 피그마(Figma)
+
+<br/>
+
+## ERD Cloud
+
+<img src="https://user-images.githubusercontent.com/70641418/145669235-290d39b2-62b4-405d-84e6-90fcc735264c.JPG" style="width: 1000px;">
+
+백엔드 팀원과 함께 ERD Cloud 사이트에서 DB 설계 했습니다.
+ERD Cloud 링크로 이동 => https://www.erdcloud.com/d/8YAbsi25XhvDwxo7R
+
+<br/>
 
 ---
 # 프로젝트 후기
