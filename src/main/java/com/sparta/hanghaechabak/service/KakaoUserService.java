@@ -11,6 +11,7 @@ import com.sparta.hanghaechabak.model.UserRoleEnum;
 import com.sparta.hanghaechabak.repository.UserRepository;
 import com.sparta.hanghaechabak.security.UserDetailsImpl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,19 +29,16 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 @Service
+@RequiredArgsConstructor
 public class KakaoUserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    public KakaoUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
-    public HeaderDto kakaoLogin(String code) throws JsonProcessingException {
+    public HeaderDto kakaoLogin(
+            String code
+    ) throws JsonProcessingException {
 // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
 
@@ -56,7 +54,9 @@ public class KakaoUserService {
         return token;
     }
 
-    private String getAccessToken(String code) throws JsonProcessingException {
+    private String getAccessToken(
+            String code
+    ) throws JsonProcessingException {
 // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -127,7 +127,9 @@ public class KakaoUserService {
         return new SnsUserInfoDto(id, nickname, email,profileStr);
     }
 
-    private User registerKakaoOrUpdateKakao(SnsUserInfoDto snsUserInfoDto) {
+    private User registerKakaoOrUpdateKakao(
+            SnsUserInfoDto snsUserInfoDto
+    ) {
         User sameUser = userRepository.findByEmail(snsUserInfoDto.getEmail()).orElse(null);
 
         if (sameUser == null) {
@@ -137,7 +139,9 @@ public class KakaoUserService {
         }
     }
 
-    private User registerKakaoUserIfNeeded(SnsUserInfoDto snsUserInfoDto) {
+    private User registerKakaoUserIfNeeded(
+            SnsUserInfoDto snsUserInfoDto
+    ) {
 // DB 에 중복된 Kakao Id 가 있는지 확인
         Long kakaoId = snsUserInfoDto.getId();
         User kakaoUser = userRepository.findByKakaoId(kakaoId)
@@ -167,7 +171,10 @@ public class KakaoUserService {
         return kakaoUser;
     }
 
-    private User updateKakaoUser(User sameUser, SnsUserInfoDto snsUserInfoDto) {
+    private User updateKakaoUser(
+            User sameUser,
+            SnsUserInfoDto snsUserInfoDto
+    ) {
         if (sameUser.getKakaoId() == null) {
             System.out.println("중복");
             sameUser.setKakaoId(snsUserInfoDto.getId());
@@ -178,7 +185,9 @@ public class KakaoUserService {
         return sameUser;
     }
 
-    private HeaderDto forceLogin(User kakaoUser) {
+    private HeaderDto forceLogin(
+            User kakaoUser
+    ) {
         UserDetails userDetails = new UserDetailsImpl(kakaoUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -187,5 +196,4 @@ public class KakaoUserService {
         headerDto.setTOKEN(jwtTokenProvider.createToken(kakaoUser.getNickname(),Long.toString(kakaoUser.getKakaoId())));
         return headerDto;
     }
-
 }

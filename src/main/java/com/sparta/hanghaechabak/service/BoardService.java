@@ -68,7 +68,9 @@ public class BoardService {
             MultipartFile multipartFile
     ) throws IOException {
 
-        Board modifyBoard = boardRepository.findById(boardId).orElseThrow(() -> new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
+        Board modifyBoard = boardRepository.findById(boardId).orElseThrow(
+                () -> new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID)
+        );
         if (!modifyBoard.getUser().getId().equals(user.getId()))
             throw new ErrorNotFoundUserException(ErrorCode.ERROR_NOTMATCH_MODIFY);
 
@@ -94,7 +96,9 @@ public class BoardService {
     }
 
     public BoardResponseDto findOne(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID));
+        Board board = boardRepository.findById(id).orElseThrow(
+                () -> new ErrorNotFoundBoardException(ErrorCode.ERROR_BOARD_ID)
+        );
 
         return BoardResponseDto.builder()
                 .id(board.getId())
@@ -120,10 +124,18 @@ public class BoardService {
 
 
     public List<BoardResponseDto> findAllPaging() {
-        //PageRequest pageRequest = PageRequest.of(nowPage, 3, Sort.by(Sort.Direction.DESC,"createdAt"));
         List<Board> board = boardRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
 
-        return board.stream().map(s-> new BoardResponseDto(s.getId(),s.getNickname(),s.getContent(),s.getLocation(),s.getImage())).collect(Collectors.toList());
+        return board.stream()
+                .map(
+                    s-> new BoardResponseDto(
+                            s.getId(),
+                            s.getNickname(),
+                            s.getContent(),
+                            s.getLocation(),
+                            s.getImage()))
+                    .collect(Collectors.toList()
+                );
 
 
     }

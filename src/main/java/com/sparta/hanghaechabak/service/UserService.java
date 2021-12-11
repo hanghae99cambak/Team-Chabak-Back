@@ -22,8 +22,10 @@ public class UserService {
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
 
+    public void registerUser(
+            SignupRequestDto requestDto
+    ) {
 
-    public void registerUser(SignupRequestDto requestDto) {
         // 회원 ID 중복 확인
         String username = requestDto.getNickname();
         String email = requestDto.getEmail();
@@ -53,13 +55,21 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Boolean nicknameDuplicate(String nickname) {
+
+    public Boolean nicknameDuplicate(
+            String nickname
+    ) {
         return userRepository.existsByNickname(nickname);
     }
 
-    public List<Map<String, String>> login(LoginRequestDto requestDto) {
+    public List<Map<String, String>> login(
+            LoginRequestDto requestDto
+    ) {
         User member = userRepository.findByNickname(requestDto.getNickname())
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 nickname 입니다."));
+                .orElseThrow(
+                        () -> new IllegalArgumentException("가입되지 않은 nickname 입니다.")
+                );
+
         if (!passwordEncoder.matches(requestDto.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
