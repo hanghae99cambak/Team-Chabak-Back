@@ -37,7 +37,7 @@
 
 피그마(Figma)툴을 사용해서 UI를 디자인했습니다.  
 
-피그마로 URL로 이동 =>
+피그마 URL로 이동 =>
 <a href="https://www.figma.com/file/z3liAITH2IJig8fkeEZat2/Untitled">클릭</a>
 
 
